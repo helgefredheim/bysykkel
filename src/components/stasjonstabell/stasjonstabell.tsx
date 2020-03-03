@@ -23,6 +23,6 @@ const Stasjonstabell: FunctionComponent<{ stasjoner: Stasjoner }> = props => {
             </tbody>
         </table>
     )
-}
+};
 
 export default Stasjonstabell;
