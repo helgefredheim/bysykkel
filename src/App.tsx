@@ -1,5 +1,4 @@
 import React, {useEffect, useState} from 'react';
-import './styles/App.css';
 import {hentStasjoner} from "./api/stasjoner-api";
 import Stasjonstabell from "./components/stasjonstabell/stasjonstabell";
 import {Stasjoner, Stasjonsinformasjon} from "./types/types";
@@ -22,7 +21,7 @@ function App() {
   });
   return (
     <div className="App">
-      <h1>Bysykler i Oslo</h1>
+      <h1 id="stativer-tittel">Bysykkel-stativer i Oslo</h1>
       {henter ? <Loader /> : feilmelding ? <Feilstripe><p>{feilmelding}</p></Feilstripe> : <Stasjonstabell stasjoner={stasjoner}/>}
     </div>
   );
