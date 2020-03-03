@@ -15,6 +15,7 @@
     "react-scripts": "3.4.0",
     "typescript": "3.7.5"
   },
+  "proxy": "https://gbfs.urbansharing.com",
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",

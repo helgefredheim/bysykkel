@@ -1,24 +1,27 @@
-import React from 'react';
-import logo from './logo.svg';
+import React, {useEffect, useState} from 'react';
 import './App.css';
+import {hentStasjoner} from "./api/stasjoner-api";
+import Stasjontabell from "./components/stasjon-tabell";
+import {Stasjoner, Stasjonsinformasjon} from "./types/types";
 
 function App() {
+  const [stasjoner, setStasjoner] = useState<Stasjoner>([]);
+  const [feilmelding, setFeilmelding] = useState<string | undefined>(undefined);
+  useEffect(() => {
+    hentStasjoner()
+        .then((respons: Stasjonsinformasjon) => {
+          setStasjoner(respons.data.stations);
+        }).catch((err) => {
+          console.error("Det oppstod en feil under henting av bysykkel-stativer", err);
+          setFeilmelding("Det oppstod en feil under henting av bysykkel-stativer");
+        })
+  });
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <h1>Bysykler</h1>
+        {
+          feilmelding ? <p>{feilmelding}</p> : <Stasjontabell stasjoner={stasjoner} />
+        }
     </div>
   );
 }
