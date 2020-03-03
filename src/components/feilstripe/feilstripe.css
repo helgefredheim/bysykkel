@@ -1,0 +1,31 @@
+.feilstripe {
+    border: 1px solid firebrick;
+    padding: .5em;
+    border-radius: 3px;
+    display: flex;
+    align-items: center;
+    background: antiquewhite;
+}
+
+.feilstripe__ikon {
+    display: flex;
+    width: 1.5em;
+    height: 1.5em;
+    margin-right: 1em;
+    justify-content: center;
+    align-items: center;
+    border-radius: 2em;
+    background: firebrick;
+}
+
+.feilstripe__ikon .ikon {
+    color: antiquewhite
+}
+
+.feilstripe__melding {
+    flex: 1;
+}
+
+.feilstripe__melding p {
+    margin: 0;
+}

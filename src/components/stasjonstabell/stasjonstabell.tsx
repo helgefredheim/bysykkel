@@ -1,16 +1,17 @@
 import React, {FunctionComponent} from "react";
-import {Stasjon, Stasjoner} from "../types/types";
+import {Stasjon, Stasjoner} from "../../types/types";
+import './stasjonstabell.css';
 
-const Stasjontabell: FunctionComponent<{ stasjoner: Stasjoner }> = props => {
+const Stasjonstabell: FunctionComponent<{ stasjoner: Stasjoner }> = props => {
     return (
-        <table>
+        <table className="stasjonstabell" cellPadding="0" cellSpacing="0">
             <thead>
             <tr>
-                <th>Stativ</th>
-                <th>Tilgjengelige sykler</th>
+                <th className="stasjonstabell__th">Stativ</th>
+                <th className="stasjonstabell__th">Tilgjengelige sykler</th>
             </tr>
             </thead>
-            <tbody>
+            <tbody className="stasjonstabell__tbody">
             {
                 props.stasjoner.map((stasjon: Stasjon) => {
                     return <tr key={stasjon.station_id}>
@@ -24,4 +25,4 @@ const Stasjontabell: FunctionComponent<{ stasjoner: Stasjoner }> = props => {
     )
 }
 
-export default Stasjontabell;
+export default Stasjonstabell;

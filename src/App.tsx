@@ -1,8 +1,9 @@
 import React, {useEffect, useState} from 'react';
-import './App.css';
+import './styles/App.css';
 import {hentStasjoner} from "./api/stasjoner-api";
-import Stasjontabell from "./components/stasjon-tabell";
+import Stasjonstabell from "./components/stasjonstabell/stasjonstabell";
 import {Stasjoner, Stasjonsinformasjon} from "./types/types";
+import Feilstripe from './components/feilstripe/feilstripe';
 
 function App() {
   const [stasjoner, setStasjoner] = useState<Stasjoner>([]);
@@ -18,10 +19,8 @@ function App() {
   });
   return (
     <div className="App">
-      <h1>Bysykler</h1>
-        {
-          feilmelding ? <p>{feilmelding}</p> : <Stasjontabell stasjoner={stasjoner} />
-        }
+      <h1>Bysykler i Oslo</h1>
+      {feilmelding ? <Feilstripe><p>{feilmelding}</p></Feilstripe> : <Stasjonstabell stasjoner={stasjoner}/>}
     </div>
   );
 }
