@@ -1,32 +1,15 @@
 import React, { FunctionComponent, useState } from "react";
-import classnames from "classnames";
 import { Stasjon, Stasjoner } from "../../types/types";
 import "./stasjonstabell.css";
 import Feilstripe from "../feilstripe/feilstripe";
+import Sorteringsknapp from "./sorteringsknapp";
 
-type onClick = () => void;
+export type onClick = () => void;
 
 enum Sorteringsfelt {
   ANTALL = "antall",
   STASJON = "stasjon"
 }
-
-const Sorteringsknapp: FunctionComponent<{
-  onClick: onClick;
-  aktiv: boolean;
-}> = props => {
-  return (
-    <button
-      onClick={props.onClick}
-      type="button"
-      className={classnames("stasjonstabell__sorter", {
-        "stasjonstabell__sorter--aktiv": props.aktiv
-      })}
-    >
-      {props.children}
-    </button>
-  );
-};
 
 const Stasjonstabell: FunctionComponent<{ stasjoner: Stasjoner }> = props => {
   const [sorteringsfelt, setSorteringsfelt] = useState<Sorteringsfelt>(
