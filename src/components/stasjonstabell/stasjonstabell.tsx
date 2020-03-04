@@ -6,6 +6,10 @@ import Sorteringsknapp from "./sorteringsknapp";
 
 export type onClick = () => void;
 
+const hentGoogleMapsUrl = (lat: number, lng: number): string => {
+  return "https://maps.google.com/?q=" + lat + "," + lng;
+};
+
 enum Sorteringsfelt {
   ANTALL_LEDIGE_LAASER = "ANTALL_LEDIGE_LAASER",
   ANTALL_LEDIGE_SYKLER = "ANTALL_LEDIGE_SYKLER",
@@ -107,7 +111,15 @@ const Stasjonstabell: FunctionComponent<{
           .map((stasjon: BeriketStasjon) => {
             return (
               <tr key={stasjon.station_id}>
-                <th>{stasjon.address}</th>
+                <th>
+                  <a
+                    className="lenke"
+                    title="Se stativet på kart"
+                    href={hentGoogleMapsUrl(stasjon.lat, stasjon.lon)}
+                  >
+                    {stasjon.address}
+                  </a>
+                </th>
                 <td>{stasjon.status.num_docks_available}</td>
                 <td>{stasjon.status.num_bikes_available}</td>
               </tr>
