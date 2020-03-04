@@ -8,8 +8,18 @@
 
 .stasjonstabell th,
 .stasjonstabell td {
-  padding: 0.5em 0;
+  padding: 0.65em;
   text-align: left;
+}
+
+.stasjonstabell th:first-child,
+.stasjonstabell td:first-child {
+  padding-left: 0;
+}
+
+.stasjonstabell th:last-child,
+.stasjonstabell td:last-child {
+  padding-right: 0;
 }
 
 .stasjonstabell thead td,

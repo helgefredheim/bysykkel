@@ -13,6 +13,8 @@ body {
 .app {
   margin-right: auto;
   margin-left: auto;
+  width: 100%;
+  max-width: 30em;
   padding: 0.5em 1em;
   background: white;
   border-radius: 2px;
