@@ -4,9 +4,14 @@ Dette prosjektet ble startet opp med [Create React App](https://github.com/faceb
 
 ## Kjøre lokalt
 
+Du må ha `node` installert. 
+
 Kjør følgende fra prosjektroten for å kjøre prosjektet lokalt
 
-### `npm start`
+```
+npm install
+npm start
+```
 
 Åpne [http://localhost:3000](http://localhost:3000) for å vise i nettleseren.
 
