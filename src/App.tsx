@@ -42,7 +42,7 @@ function App() {
   }, []);
 
   return (
-    <div className="App">
+    <div className="app">
       <h1 id="stativer-tittel">Bysykler i Oslo</h1>
       {henter ? (
         <Loader />
