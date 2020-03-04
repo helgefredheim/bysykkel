@@ -2,6 +2,7 @@ import React, {FunctionComponent, useState} from "react";
 import classnames from 'classnames';
 import {Stasjon, Stasjoner} from "../../types/types";
 import './stasjonstabell.css';
+import Feilstripe from '../feilstripe/feilstripe';
 
 type onClick = () => void;
 
@@ -53,7 +54,14 @@ const Stasjonstabell: FunctionComponent<{ stasjoner: Stasjoner }> = props => {
 
 
     return (
-        <table className="stasjonstabell" cellPadding="0" cellSpacing="0" aria-labelledby="stativer-tittel">
+      props.stasjoner.length > 0
+        ? (
+          <Feilstripe>
+            <p>Vi fant ingen bysykkelstativer</p>
+          </Feilstripe>
+        )
+        : (
+          <table className="stasjonstabell" cellPadding="0" cellSpacing="0" aria-labelledby="stativer-tittel">
             <thead>
             <tr>
               <th
@@ -87,6 +95,7 @@ const Stasjonstabell: FunctionComponent<{ stasjoner: Stasjoner }> = props => {
             }
             </tbody>
         </table>
+        )
     );
 }
 
