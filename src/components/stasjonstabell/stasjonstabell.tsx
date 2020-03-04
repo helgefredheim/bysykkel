@@ -7,7 +7,7 @@ import Sorteringsknapp from "./sorteringsknapp";
 export type onClick = () => void;
 
 const hentGoogleMapsUrl = (lat: number, lng: number): string => {
-  return "https://maps.google.com/?q=" + lat + "," + lng;
+  return `https://maps.google.com/?q=${lat},${lng}`;
 };
 
 enum Sorteringsfelt {
