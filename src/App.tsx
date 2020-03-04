@@ -1,19 +1,31 @@
 import React, { useEffect, useState } from "react";
-import { hentStasjoner } from "./api/stasjoner-api";
+import { hentStasjonsdata } from "./api/stasjoner-api";
 import Stasjonstabell from "./components/stasjonstabell/stasjonstabell";
-import { Stasjoner, Stasjonsinformasjon } from "./types/types";
+import {
+  Stasjoner,
+  Stasjonsinformasjon,
+  Stasjonsstatus,
+  StasjonsstatusElementliste
+} from "./types/types";
 import Feilstripe from "./components/feilstripe/feilstripe";
 import Loader from "./components/loader/loader";
+import berikStasjoner from "./utils/berikStasjoner";
 
 function App() {
   const [henter, setHenter] = useState<boolean>(true);
   const [stasjoner, setStasjoner] = useState<Stasjoner>([]);
+  const [stasjonsstatusliste, setStasjonsstatusliste] = useState<
+    StasjonsstatusElementliste
+  >([]);
   const [feilmelding, setFeilmelding] = useState<string | undefined>(undefined);
+
   useEffect(() => {
-    hentStasjoner()
-      .then((respons: Stasjonsinformasjon) => {
-        setHenter(false);
-        setStasjoner(respons.data.stations);
+    hentStasjonsdata()
+      .then(responser => {
+        const stasjonsstatus: Stasjonsstatus = responser[0];
+        const stasjonsinformasjon: Stasjonsinformasjon = responser[1];
+        setStasjoner(stasjonsinformasjon.data.stations);
+        setStasjonsstatusliste(stasjonsstatus.data.stations);
       })
       .catch(err => {
         console.error(
@@ -23,11 +35,15 @@ function App() {
         setFeilmelding(
           "Det oppstod en feil under henting av bysykkel-stativer"
         );
+      })
+      .finally(() => {
+        setHenter(false);
       });
-  });
+  }, []);
+
   return (
     <div className="App">
-      <h1 id="stativer-tittel">Bysykkel-stativer i Oslo</h1>
+      <h1 id="stativer-tittel">Bysykler i Oslo</h1>
       {henter ? (
         <Loader />
       ) : feilmelding ? (
@@ -35,7 +51,9 @@ function App() {
           <p>{feilmelding}</p>
         </Feilstripe>
       ) : (
-        <Stasjonstabell stasjoner={stasjoner} />
+        <Stasjonstabell
+          stasjoner={berikStasjoner(stasjoner, stasjonsstatusliste)}
+        />
       )}
     </div>
   );

@@ -1,5 +1,5 @@
 import React, { FunctionComponent, useState } from "react";
-import { Stasjon, Stasjoner } from "../../types/types";
+import { BeriketStasjon } from "../../types/types";
 import "./stasjonstabell.css";
 import Feilstripe from "../feilstripe/feilstripe";
 import Sorteringsknapp from "./sorteringsknapp";
@@ -7,13 +7,46 @@ import Sorteringsknapp from "./sorteringsknapp";
 export type onClick = () => void;
 
 enum Sorteringsfelt {
-  ANTALL = "antall",
-  STASJON = "stasjon"
+  ANTALL_LEDIGE_LAASER = "ANTALL_LEDIGE_LAASER",
+  ANTALL_LEDIGE_SYKLER = "ANTALL_LEDIGE_SYKLER",
+  STASJONSNAVN = "STASJONSNAVN"
 }
 
-const Stasjonstabell: FunctionComponent<{ stasjoner: Stasjoner }> = props => {
+const hentSorterStasjoner = (sorteringsfelt: Sorteringsfelt, asc: boolean) => {
+  const sorteringsfunksjoner = {
+    [Sorteringsfelt.ANTALL_LEDIGE_LAASER]: (
+      a: BeriketStasjon,
+      b: BeriketStasjon
+    ) => {
+      return asc
+        ? a.status.num_docks_available - b.status.num_docks_available
+        : b.status.num_docks_available - a.status.num_docks_available;
+    },
+    [Sorteringsfelt.ANTALL_LEDIGE_SYKLER]: (
+      a: BeriketStasjon,
+      b: BeriketStasjon
+    ) => {
+      return asc
+        ? a.status.num_bikes_available - b.status.num_bikes_available
+        : b.status.num_bikes_available - a.status.num_bikes_available;
+    },
+    [Sorteringsfelt.STASJONSNAVN]: (a: BeriketStasjon, b: BeriketStasjon) => {
+      if (a.address > b.address) {
+        return asc ? 1 : -1;
+      } else {
+        return asc ? -1 : 1;
+      }
+    }
+  };
+
+  return sorteringsfunksjoner[sorteringsfelt];
+};
+
+const Stasjonstabell: FunctionComponent<{
+  stasjoner: BeriketStasjon[];
+}> = props => {
   const [sorteringsfelt, setSorteringsfelt] = useState<Sorteringsfelt>(
-    Sorteringsfelt.STASJON
+    Sorteringsfelt.STASJONSNAVN
   );
   const [asc, setAsc] = useState<boolean>(true);
 
@@ -34,21 +67,23 @@ const Stasjonstabell: FunctionComponent<{ stasjoner: Stasjoner }> = props => {
     };
   };
 
-  const sorterStasjoner = (a: Stasjon, b: Stasjon) => {
-    if (sorteringsfelt === Sorteringsfelt.STASJON) {
-      if (a.address > b.address) {
-        return asc ? 1 : -1;
-      } else {
-        return asc ? -1 : 1;
-      }
-    } else {
-      if (a.capacity > b.capacity) {
-        return asc ? 1 : -1;
-      } else return asc ? -1 : 1;
-    }
+  const Th: FunctionComponent<{ felt: Sorteringsfelt }> = ({
+    felt,
+    children
+  }) => {
+    return (
+      <th className="stasjonstabell__th" aria-sort={getAriaSort(felt)}>
+        <Sorteringsknapp
+          aktiv={sorteringsfelt === felt}
+          onClick={getOnClick(felt)}
+        >
+          {children}
+        </Sorteringsknapp>
+      </th>
+    );
   };
 
-  return props.stasjoner.length > 0 ? (
+  return props.stasjoner.length === 0 ? (
     <Feilstripe>
       <p>Vi fant ingen bysykkelstativer</p>
     </Feilstripe>
@@ -61,39 +96,23 @@ const Stasjonstabell: FunctionComponent<{ stasjoner: Stasjoner }> = props => {
     >
       <thead>
         <tr>
-          <th
-            className="stasjonstabell__th"
-            aria-sort={getAriaSort(Sorteringsfelt.STASJON)}
-          >
-            <Sorteringsknapp
-              aktiv={sorteringsfelt === Sorteringsfelt.STASJON}
-              onClick={getOnClick(Sorteringsfelt.STASJON)}
-            >
-              Stativ
-            </Sorteringsknapp>
-          </th>
-          <th
-            className="stasjonstabell__th"
-            aria-sort={getAriaSort(Sorteringsfelt.ANTALL)}
-          >
-            <Sorteringsknapp
-              aktiv={sorteringsfelt === Sorteringsfelt.ANTALL}
-              onClick={getOnClick(Sorteringsfelt.ANTALL)}
-            >
-              Tilgjengelige sykler
-            </Sorteringsknapp>
-          </th>
+          <Th felt={Sorteringsfelt.STASJONSNAVN}>Stativ</Th>
+          <Th felt={Sorteringsfelt.ANTALL_LEDIGE_LAASER}>Ledige låser</Th>
+          <Th felt={Sorteringsfelt.ANTALL_LEDIGE_SYKLER}>Ledige sykler</Th>
         </tr>
       </thead>
       <tbody className="stasjonstabell__tbody">
-        {props.stasjoner.sort(sorterStasjoner).map((stasjon: Stasjon) => {
-          return (
-            <tr key={stasjon.station_id}>
-              <th>{stasjon.address}</th>
-              <td>{stasjon.capacity}</td>
-            </tr>
-          );
-        })}
+        {props.stasjoner
+          .sort(hentSorterStasjoner(sorteringsfelt, asc))
+          .map((stasjon: BeriketStasjon) => {
+            return (
+              <tr key={stasjon.station_id}>
+                <th>{stasjon.address}</th>
+                <td>{stasjon.status.num_docks_available}</td>
+                <td>{stasjon.status.num_bikes_available}</td>
+              </tr>
+            );
+          })}
       </tbody>
     </table>
   );
