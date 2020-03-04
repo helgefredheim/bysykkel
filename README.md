@@ -4,7 +4,7 @@ Dette prosjektet ble startet opp med [Create React App](https://github.com/faceb
 
 ## Kjøre lokalt
 
-Du må ha `node` installert. 
+Du må ha `node >= 10.13.0` installert. 
 
 Kjør følgende fra prosjektroten for å kjøre prosjektet lokalt
 

@@ -1,57 +1,57 @@
 .stasjonstabell {
-    opacity: 0;
-    animation: fadeIn;
-    animation-fill-mode: forwards;
-    animation-duration: 300ms;
-    animation-timing-function: ease-in-out;
+  opacity: 0;
+  animation: fadeIn;
+  animation-fill-mode: forwards;
+  animation-duration: 300ms;
+  animation-timing-function: ease-in-out;
 }
 
 .stasjonstabell th,
 .stasjonstabell td {
-    padding: .5em;
-    text-align: left;
+  padding: 0.5em;
+  text-align: left;
 }
 
 .stasjonstabell thead td,
 .stasjonstabell thead th {
-    border-bottom: 2px solid grey;
+  border-bottom: 2px solid grey;
 }
 
 .stasjonstabell__sorter {
-    border: 0;
-    padding: 0;
-    margin: 0 0 2px 0;
-    background-color: transparent;
-    font-size: 1.2em;
-    font-weight: 700;
-    cursor: pointer;
+  border: 0;
+  padding: 0;
+  margin: 0 0 2px 0;
+  background-color: transparent;
+  font-size: 1.2em;
+  font-weight: 700;
+  cursor: pointer;
 }
 
 .stasjonstabell__sorter:hover {
-    border-bottom: 2px dotted gray;
-    margin-bottom: 0;
+  border-bottom: 2px dotted gray;
+  margin-bottom: 0;
 }
 
 .stasjonstabell__sorter--aktiv {
-    border-bottom: 2px solid black;
-    margin-bottom: 0;
+  border-bottom: 2px solid black;
+  margin-bottom: 0;
 }
 
 .stasjonstabell__sorter--aktiv:hover {
-    border-color: black;
+  border-color: black;
 }
 
 .stasjonstabell__sorter:focus {
-    outline: none;
-    box-shadow: 0 0 0 3px darkorange;
+  outline: none;
+  box-shadow: 0 0 0 3px darkorange;
 }
 
 @keyframes fadeIn {
-    0% {
-        opacity: 0;
-    }
+  0% {
+    opacity: 0;
+  }
 
-    100% {
-        opacity: 1;
-    }
+  100% {
+    opacity: 1;
+  }
 }
