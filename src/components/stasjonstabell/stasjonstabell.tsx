@@ -3,6 +3,7 @@ import { BeriketStasjon } from "../../types/types";
 import "./stasjonstabell.css";
 import Feilstripe from "../feilstripe/feilstripe";
 import Sorteringsknapp from "./sorteringsknapp";
+import Tekster from "../../tekster";
 
 export type onClick = () => void;
 
@@ -35,7 +36,7 @@ const hentSorterStasjoner = (sorteringsfelt: Sorteringsfelt, asc: boolean) => {
         : b.status.num_bikes_available - a.status.num_bikes_available;
     },
     [Sorteringsfelt.STASJONSNAVN]: (a: BeriketStasjon, b: BeriketStasjon) => {
-      if (a.address > b.address) {
+      if (a.name > b.name) {
         return asc ? 1 : -1;
       } else {
         return asc ? -1 : 1;
@@ -78,6 +79,7 @@ const Stasjonstabell: FunctionComponent<{
     return (
       <th className="stasjonstabell__th" aria-sort={getAriaSort(felt)}>
         <Sorteringsknapp
+          className={`js-sorter-${felt.toLowerCase()}`}
           aktiv={sorteringsfelt === felt}
           onClick={getOnClick(felt)}
         >
@@ -89,7 +91,7 @@ const Stasjonstabell: FunctionComponent<{
 
   return props.stasjoner.length === 0 ? (
     <Feilstripe>
-      <p>Vi fant ingen bysykkelstativer</p>
+      <p>{Tekster.INGEN_BYSYKLER_MELDING}</p>
     </Feilstripe>
   ) : (
     <table
@@ -110,14 +112,17 @@ const Stasjonstabell: FunctionComponent<{
           .sort(hentSorterStasjoner(sorteringsfelt, asc))
           .map((stasjon: BeriketStasjon) => {
             return (
-              <tr key={stasjon.station_id}>
+              <tr
+                key={stasjon.station_id}
+                className="stasjonstabell__tr js-stasjonstabell__tr"
+              >
                 <th>
                   <a
                     className="lenke"
                     title="Se stativet på kart"
                     href={hentGoogleMapsUrl(stasjon.lat, stasjon.lon)}
                   >
-                    {stasjon.address}
+                    {stasjon.name}
                   </a>
                 </th>
                 <td>{stasjon.status.num_docks_available}</td>

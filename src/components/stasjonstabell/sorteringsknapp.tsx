@@ -4,13 +4,14 @@ import { onClick } from "./stasjonstabell";
 
 const Sorteringsknapp: FunctionComponent<{
   onClick: onClick;
+  className: string;
   aktiv: boolean;
 }> = props => {
   return (
     <button
       onClick={props.onClick}
       type="button"
-      className={classnames("stasjonstabell__sorter", {
+      className={classnames("stasjonstabell__sorter", props.className, {
         "stasjonstabell__sorter--aktiv": props.aktiv
       })}
     >

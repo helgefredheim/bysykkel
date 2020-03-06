@@ -1,4 +1,6 @@
-const stationStatus = {
+import { Stasjonsstatus } from "../types/types";
+
+const stationStatus: Stasjonsstatus = {
   last_updated: 1583516575,
   ttl: 10,
   data: {

@@ -1,4 +1,6 @@
-const stationInformation = {
+import { Stasjonsinformasjon } from "../types/types";
+
+const stationInformation: Stasjonsinformasjon = {
   last_updated: 1583516593,
   ttl: 10,
   data: {
