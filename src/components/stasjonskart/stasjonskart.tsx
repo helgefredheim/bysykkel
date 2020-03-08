@@ -6,6 +6,7 @@ import { BeriketStasjon } from "../../types/types";
 import { GOOGLE_MAPS_API_KEY } from "../../config/config";
 import "./stasjonskart.css";
 import Stasjonsinfo from "./stasjonsinfo";
+import Container from "../container/Container";
 
 const STORTINGET_LAT_LNG = { lat: 59.913256, lng: 10.739784 };
 
@@ -41,7 +42,11 @@ const Stasjonskart: FunctionComponent<{ stasjoner: BeriketStasjon[] }> = ({
   loader.load().then(google => {
     rendreKart(stasjoner, google);
   });
-  return <div id="kart" className="stasjonskart" />;
+  return (
+    <Container>
+      <div id="kart" className="stasjonskart" />
+    </Container>
+  );
 };
 
 export default Stasjonskart;

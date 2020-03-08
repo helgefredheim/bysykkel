@@ -1,7 +1,9 @@
-import React, { useEffect, useState } from "react";
+import React, { FunctionComponent, useEffect, useState } from "react";
+import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import { hentStasjonsdata } from "./api/stasjoner-api";
 import Stasjonstabell from "./components/stasjonstabell/stasjonstabell";
 import {
+  BeriketStasjon,
   Stasjoner,
   Stasjonsinformasjon,
   Stasjonsstatus,
@@ -10,6 +12,16 @@ import {
 import Feilstripe from "./components/feilstripe/feilstripe";
 import Loader from "./components/loader/loader";
 import berikStasjoner from "./utils/berikStasjoner";
+import Stasjonskart from "./components/stasjonskart/stasjonskart";
+import Header from "./components/header/header";
+
+const RendreComponent: FunctionComponent<{
+  henter: boolean;
+  stasjoner: BeriketStasjon[];
+  Component: any;
+}> = ({ henter, stasjoner, Component }) => {
+  return henter ? <Loader /> : <Component stasjoner={stasjoner} />;
+};
 
 function App() {
   const [henter, setHenter] = useState<boolean>(true);
@@ -18,7 +30,6 @@ function App() {
     StasjonsstatusElementliste
   >([]);
   const [feilmelding, setFeilmelding] = useState<string | undefined>(undefined);
-
   useEffect(() => {
     hentStasjonsdata()
       .then(responser => {
@@ -41,20 +52,38 @@ function App() {
       });
   }, []);
 
+  const props: any = {
+    henter,
+    stasjoner: berikStasjoner(stasjoner, stasjonsstatusliste)
+  };
+
+  const feilcomp = (
+    <Feilstripe>
+      <p>{feilmelding}</p>
+    </Feilstripe>
+  );
+
   return (
     <div className="app">
-      <h1 id="stativer-tittel">Bysykler i Oslo</h1>
-      {henter ? (
-        <Loader />
-      ) : feilmelding ? (
-        <Feilstripe>
-          <p>{feilmelding}</p>
-        </Feilstripe>
-      ) : (
-        <Stasjonstabell
-          stasjoner={berikStasjoner(stasjoner, stasjonsstatusliste)}
-        />
-      )}
+      <Router>
+        <Header />
+        <Switch>
+          <Route path="/kart">
+            {feilmelding ? (
+              feilcomp
+            ) : (
+              <RendreComponent Component={Stasjonskart} {...props} />
+            )}
+          </Route>
+          <Route path="/">
+            {feilmelding ? (
+              feilcomp
+            ) : (
+              <RendreComponent Component={Stasjonstabell} {...props} />
+            )}
+          </Route>
+        </Switch>
+      </Router>
     </div>
   );
 }

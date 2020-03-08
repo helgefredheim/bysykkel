@@ -4,6 +4,7 @@ import "./stasjonstabell.css";
 import Feilstripe from "../feilstripe/feilstripe";
 import Sorteringsknapp from "./sorteringsknapp";
 import Tekster from "../../tekster";
+import Container from "../container/Container";
 
 export type onClick = () => void;
 
@@ -94,49 +95,53 @@ const Stasjonstabell: FunctionComponent<{
   };
 
   return props.stasjoner.length === 0 ? (
-    <Feilstripe>
-      <p>{Tekster.INGEN_BYSYKLER_MELDING}</p>
-    </Feilstripe>
+    <Container padded>
+      <Feilstripe>
+        <p>{Tekster.INGEN_BYSYKLER_MELDING}</p>
+      </Feilstripe>
+    </Container>
   ) : (
-    <table
-      className="stasjonstabell"
-      cellPadding="0"
-      cellSpacing="0"
-      aria-labelledby="stativer-tittel"
-    >
-      <thead>
-        <tr>
-          <Th felt={Sorteringsfelt.STASJONSNAVN}>Stativ</Th>
-          <Th felt={Sorteringsfelt.ANTALL_LEDIGE_LAASER}>Ledige låser</Th>
-          <Th felt={Sorteringsfelt.ANTALL_LEDIGE_SYKLER}>Ledige sykler</Th>
-        </tr>
-      </thead>
-      <tbody className="stasjonstabell__tbody">
-        {props.stasjoner
-          .filter((stasjon: BeriketStasjon) => stasjon.status !== null)
-          .sort(hentSorterStasjoner(sorteringsfelt, asc))
-          .map((stasjon: BeriketStasjon) => {
-            return (
-              <tr
-                key={stasjon.station_id}
-                className="stasjonstabell__tr js-stasjonstabell__tr"
-              >
-                <th>
-                  <a
-                    className="lenke"
-                    title="Se stativet på kart"
-                    href={hentGoogleMapsUrl(stasjon.lat, stasjon.lon)}
-                  >
-                    {stasjon.name}
-                  </a>
-                </th>
-                <td>{stasjon.status?.num_docks_available}</td>
-                <td>{stasjon.status?.num_bikes_available}</td>
-              </tr>
-            );
-          })}
-      </tbody>
-    </table>
+    <Container padded>
+      <table
+        className="stasjonstabell"
+        cellPadding="0"
+        cellSpacing="0"
+        aria-labelledby="stativer-tittel"
+      >
+        <thead>
+          <tr>
+            <Th felt={Sorteringsfelt.STASJONSNAVN}>Stativ</Th>
+            <Th felt={Sorteringsfelt.ANTALL_LEDIGE_LAASER}>Ledige låser</Th>
+            <Th felt={Sorteringsfelt.ANTALL_LEDIGE_SYKLER}>Ledige sykler</Th>
+          </tr>
+        </thead>
+        <tbody className="stasjonstabell__tbody">
+          {props.stasjoner
+            .filter((stasjon: BeriketStasjon) => stasjon.status !== null)
+            .sort(hentSorterStasjoner(sorteringsfelt, asc))
+            .map((stasjon: BeriketStasjon) => {
+              return (
+                <tr
+                  key={stasjon.station_id}
+                  className="stasjonstabell__tr js-stasjonstabell__tr"
+                >
+                  <th>
+                    <a
+                      className="lenke"
+                      title="Se stativet på kart"
+                      href={hentGoogleMapsUrl(stasjon.lat, stasjon.lon)}
+                    >
+                      {stasjon.name}
+                    </a>
+                  </th>
+                  <td>{stasjon.status?.num_docks_available}</td>
+                  <td>{stasjon.status?.num_bikes_available}</td>
+                </tr>
+              );
+            })}
+        </tbody>
+      </table>
+    </Container>
   );
 };
 

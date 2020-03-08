@@ -1,0 +1,27 @@
+.meny {
+  display: block;
+}
+
+.meny__lenke {
+  display: inline-block;
+  font-size: 1.2em;
+  margin-right: 1em;
+  color: #000;
+  text-decoration: none;
+  margin-bottom: 1px;
+}
+
+.meny__lenke:focus {
+  outline: none;
+  box-shadow: 0 0 0 3px darkorange;
+}
+
+.meny__lenke:hover {
+  border-bottom: 1px dashed red;
+}
+
+.meny__lenke--aktiv {
+  color: red;
+  border-bottom: 1px solid red;
+  margin-bottom: 0;
+}

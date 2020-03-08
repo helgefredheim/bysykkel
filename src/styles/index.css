@@ -3,7 +3,6 @@
 
 body {
   background-color: lightgrey;
-  padding: 1em;
   margin: 0;
   font-family: "Helvetica", "Arial", "Sans-serif";
   -webkit-font-smoothing: antialiased;
@@ -14,9 +13,7 @@ body {
   margin-right: auto;
   margin-left: auto;
   width: 100%;
-  max-width: 30em;
-  padding: 0.5em 1em;
+  max-width: 80em;
   background: white;
   border-radius: 2px;
-  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.2);
 }
