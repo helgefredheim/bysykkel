@@ -38,5 +38,5 @@ export interface Stasjonsstatus {
 }
 
 export interface BeriketStasjon extends Stasjon {
-  status: StasjonsstatusElement;
+  status?: StasjonsstatusElement;
 }

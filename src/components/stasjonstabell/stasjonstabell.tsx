@@ -23,17 +23,21 @@ const hentSorterStasjoner = (sorteringsfelt: Sorteringsfelt, asc: boolean) => {
       a: BeriketStasjon,
       b: BeriketStasjon
     ) => {
-      return asc
-        ? a.status.num_docks_available - b.status.num_docks_available
-        : b.status.num_docks_available - a.status.num_docks_available;
+      return a.status && b.status
+        ? asc
+          ? a.status.num_docks_available - b.status.num_docks_available
+          : b.status.num_docks_available - a.status.num_docks_available
+        : 0;
     },
     [Sorteringsfelt.ANTALL_LEDIGE_SYKLER]: (
       a: BeriketStasjon,
       b: BeriketStasjon
     ) => {
-      return asc
-        ? a.status.num_bikes_available - b.status.num_bikes_available
-        : b.status.num_bikes_available - a.status.num_bikes_available;
+      return a.status && b.status
+        ? asc
+          ? a.status.num_bikes_available - b.status.num_bikes_available
+          : b.status.num_bikes_available - a.status.num_bikes_available
+        : 0;
     },
     [Sorteringsfelt.STASJONSNAVN]: (a: BeriketStasjon, b: BeriketStasjon) => {
       if (a.name > b.name) {
@@ -109,6 +113,9 @@ const Stasjonstabell: FunctionComponent<{
       </thead>
       <tbody className="stasjonstabell__tbody">
         {props.stasjoner
+          .filter((stasjon: BeriketStasjon) => {
+            stasjon.status !== null;
+          })
           .sort(hentSorterStasjoner(sorteringsfelt, asc))
           .map((stasjon: BeriketStasjon) => {
             return (
@@ -125,8 +132,8 @@ const Stasjonstabell: FunctionComponent<{
                     {stasjon.name}
                   </a>
                 </th>
-                <td>{stasjon.status.num_docks_available}</td>
-                <td>{stasjon.status.num_bikes_available}</td>
+                <td>{stasjon.status?.num_docks_available}</td>
+                <td>{stasjon.status?.num_bikes_available}</td>
               </tr>
             );
           })}

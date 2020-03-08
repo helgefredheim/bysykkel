@@ -48,4 +48,20 @@ describe("berikStasjoner", () => {
       }
     });
   });
+
+  it("Skal funke selv om en stasjon mangler stasjonsstatus", () => {
+    const ID_STASJON_UTEN_STATUS: string = "1755";
+    const stasjoner = stationInformation.data.stations;
+    const stasjonsstatusliste = stationStatus.data.stations.filter(
+      status => status.station_id !== ID_STASJON_UTEN_STATUS
+    );
+    const berikedeStasjoner: BeriketStasjon[] = berikStasjoner(
+      stasjoner,
+      stasjonsstatusliste
+    );
+    const beriketStasjonUtenStatus = berikedeStasjoner.find(
+      (stasjon: BeriketStasjon) => stasjon.station_id === ID_STASJON_UTEN_STATUS
+    ) as BeriketStasjon;
+    expect(beriketStasjonUtenStatus.status).toEqual(null);
+  });
 });

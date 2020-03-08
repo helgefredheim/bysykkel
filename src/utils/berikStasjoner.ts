@@ -24,7 +24,7 @@ const berikStasjoner = (
     (stasjon: Stasjon): BeriketStasjon => {
       return {
         ...stasjon,
-        status: statusMap[stasjon.station_id]
+        status: statusMap[stasjon.station_id] || null
       };
     }
   );
