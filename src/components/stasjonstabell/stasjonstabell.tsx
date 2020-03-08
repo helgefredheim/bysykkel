@@ -113,9 +113,7 @@ const Stasjonstabell: FunctionComponent<{
       </thead>
       <tbody className="stasjonstabell__tbody">
         {props.stasjoner
-          .filter((stasjon: BeriketStasjon) => {
-            stasjon.status !== null;
-          })
+          .filter((stasjon: BeriketStasjon) => stasjon.status !== null)
           .sort(hentSorterStasjoner(sorteringsfelt, asc))
           .map((stasjon: BeriketStasjon) => {
             return (

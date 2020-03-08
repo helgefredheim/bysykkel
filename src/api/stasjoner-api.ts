@@ -1,4 +1,4 @@
-import { STASJONSINFORMASJON_URL, STASJONSSTATUS_URL } from "../config";
+import { STASJONSINFORMASJON_URL, STASJONSSTATUS_URL } from "../config/config";
 import apiHeaders from "./api-headers";
 
 const init = { headers: apiHeaders };
