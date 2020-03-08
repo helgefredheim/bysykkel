@@ -15,15 +15,6 @@ const stationStatus: Stasjonsstatus = {
         num_docks_available: 33
       },
       {
-        station_id: "1101",
-        is_installed: 1,
-        is_renting: 1,
-        is_returning: 1,
-        last_reported: 1583516575,
-        num_bikes_available: 0,
-        num_docks_available: 24
-      },
-      {
         station_id: "1023",
         is_installed: 1,
         is_renting: 1,
@@ -40,6 +31,15 @@ const stationStatus: Stasjonsstatus = {
         last_reported: 1583516575,
         num_bikes_available: 0,
         num_docks_available: 10
+      },
+      {
+        station_id: "1101",
+        is_installed: 1,
+        is_renting: 1,
+        is_returning: 1,
+        last_reported: 1583516575,
+        num_bikes_available: 0,
+        num_docks_available: 24
       }
     ]
   }
